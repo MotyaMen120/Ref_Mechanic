@@ -1,6 +1,6 @@
 # ❄️ Инженерия Холода | Профессия Рефмеханик
 
-![Специальность]([https://img.shields.io/badge/Специальность-15.02.06-blue](https://vuzopedia.ru/ssuzy/dalnevostochnoe-morekhodnoe-uchilishche-tekhnikum/napravlenia/spednego-professionalnogo-obrazovania/montazh-i-tekhnicheskaya-ekspluatatsiya-kholodilno-kompressornykh-mashin-i-ustanovok-po-otraslyam/Специальность-15.02.06-blue))
+![Специальность](https://img.shields.io/badge/Специальность-15.02.06-blue)](https://vuzopedia.ru/ssuzy/dalnevostochnoe-morekhodnoe-uchilishche-tekhnikum/napravlenia/spednego-professionalnogo-obrazovania/montazh-i-tekhnicheskaya-ekspluatatsiya-kholodilno-kompressornykh-mashin-i-ustanovok-po-otraslyam/)
 ![Статус](https://img.shields.io/badge/Статус-Завершен-success)
 
 Интерактивный образовательный веб-ресурс, посвященный профессии «Монтаж, техническая эксплуатация и ремонт холодильно-компрессорных и теплонасосных машин и установок». 
