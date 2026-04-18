@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Рефмеханик — Инженерия Холода</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #f4f7f9;
+            --surface: #ffffff;
+            --accent: #0073e6;
+            --accent-grad: linear-gradient(135deg, #0073e6, #00a8ff);
+            --text: #1a1a24;
+            --text-dim: #4a4a55;
+            --glass: rgba(0, 115, 230, 0.08);
+            --border-color: #d1e3f8;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; scroll-behavior: smooth; }
+
+        header { position: fixed; width: 100%; padding: 15px 5%; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(15px); z-index: 1000; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 20px rgba(0,0,0,0.02); }
+        .logo { font-weight: 800; font-size: 1.4rem; background: var(--accent-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        nav a { color: var(--text-dim); text-decoration: none; margin-left: 25px; font-size: 0.95rem; transition: 0.3s; font-weight: 600; }
+        nav a:hover { color: var(--accent); }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            background: #fff;
+            overflow: hidden;
+        }
+        .hero-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url('REF.png') center/cover no-repeat;
+            filter: brightness(1.1) contrast(1.05);
+            z-index: 1;
+        }
+        .hero-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.2), rgba(255,255,255,0.9));
+            z-index: 2;
+        }
+        .hero-content { position: relative; z-index: 3; padding: 0 10%; }
+        .hero h1 { font-size: clamp(2.5rem, 7vw, 4.5rem); font-weight: 900; color: #000; text-shadow: 0 2px 10px rgba(255,255,255,0.5); }
+        .hero .tag { display: inline-block; padding: 6px 14px; background: var(--accent); color: #fff; border-radius: 20px; font-weight: 700; margin-bottom: 15px; }
+
+        section { padding: 80px 10%; scroll-margin-top: 80px; }
+        .section-title { font-size: 2.5rem; margin-bottom: 50px; font-weight: 800; text-align: center; color: var(--accent); }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+
+        .profile-card {
+            background: var(--surface);
+            padding: 40px;
+            border-radius: 24px;
+            border: 1px solid var(--border-color);
+            transition: 0.4s;
+            box-shadow: 0 10px 30px rgba(0, 115, 230, 0.05);
+        }
+        .profile-card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 25px;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding-left: 20px;
+        }
+
+        .skills-list { list-style: none; }
+        .skills-list li {
+            margin-bottom: 15px;
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid transparent;
+            transition: 0.3s;
+        }
+        .skills-list li:hover {
+            background: #fdfeff;
+            border-color: var(--border-color);
+            box-shadow: 0 8px 20px rgba(0, 115, 230, 0.05);
+            transform: translateX(5px);
+        }
+        .skills-list strong {
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        .skills-list strong::before {
+            content: '■';
+            color: var(--accent);
+            font-size: 0.8rem;
+        }
+        .skills-list p {
+            font-size: 0.95rem;
+            color: var(--text-dim);
+            margin: 0;
+            text-align: justify;
+            line-height: 1.6;
+            padding-left: 22px;
+        }
+
+        .timeline { border-left: 3px solid var(--border-color); padding-left: 30px; margin: 0 auto; max-width: 900px; }
+        .timeline-item { margin-bottom: 40px; position: relative; }
+        .timeline-item::before { content: ''; position: absolute; left: -38px; top: 6px; width: 14px; height: 14px; border-radius: 50%; background: var(--accent); border: 3px solid #fff; }
+        .timeline-item h4 { color: var(--accent); margin-bottom: 10px; font-size: 1.3rem; }
+        .timeline-item p { text-align: justify; }
+
+        .card { background: var(--surface); padding: 30px; border-radius: 20px; border: 1px solid var(--border-color); transition: 0.3s; }
+        .card:hover { border-color: var(--accent); transform: translateY(-5px); box-shadow: 0 12px 30px rgba(0,115,230,0.1); }
+        .card i { font-size: 2.2rem; margin-bottom: 20px; color: var(--accent); }
+        .card p { text-align: justify; }
+
+        .btn { display: inline-block; padding: 12px 24px; background: var(--accent-grad); color: #fff; text-decoration: none; border-radius: 10px; font-weight: 700; margin-top: 20px; transition: 0.3s; }
+        .btn:hover { opacity: 0.9; transform: scale(1.05); }
+
+        footer { padding: 60px 10%; text-align: center; background: #fff; border-top: 1px solid var(--border-color); }
+        .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s all ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo">REFMEC.EDU</div>
+    <nav>
+        <a href="#history">История</a>
+        <a href="#industries">Отрасли</a>
+        <a href="#skills">Навыки</a>
+        <a href="#edu">Обучение</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <div class="tag">Проект курсанта Агеева Артема</div>
+        <h1>ИНЖЕНЕРИЯ ХОЛОДА</h1>
+        <p>Монтаж, эксплуатация и ремонт систем охлаждения. Ключевая специальность 15.02.06 для мировой индустрии и флота.</p>
+    </div>
+</section>
+
+<section id="history">
+    <h2 class="section-title reveal">Глубокие истоки и эволюция</h2>
+    <div class="timeline">
+        <div class="timeline-item reveal">
+            <h4>Античность — XVIII век: Первые опыты</h4>
+            <p>Искусственное охлаждение известно с античности — римский император Нерон якобы использовал снег из гор для хранения фруктов, а в Средние века применяли «ледники». В 1748 году шотландский врач Уильям Каллен продемонстрировал эффект кипения жидкости под вакуумом, создав первый лабораторный холодильник. В 1775 году Уильям Гюллен получил искусственный лёд путём эвапорации эфира в вакууме.</p>
+        </div>
+        <div class="timeline-item reveal">
+            <h4>1834 — 1850: Первые компрессорные машины</h4>
+            <p>Переход к промышленным машинам произошёл в 1834 году, когда Якоб Перкинсон запатентовал первый аппарат на основе эфирного компрессионного цикла. В 1850 году Джон Гори собирает аппарат по технологии компрессионного цикла, которая лежит в основе современных холодильных систем.</p>
+        </div>
+        <div class="timeline-item reveal">
+            <h4>1876 — 1888: Аммиак и зарождение в России</h4>
+            <p>Карл фон Линде усовершенствовал цикл в 1876 году, применив аммиак. В России холодильное машиностроение зародилось в дореволюционный период: в 1888 году на астраханских рыбных промыслах установили первую аммиачную машину. Завод Фельцера построил 22 машины, и уже тогда требовались навыки пайки и работы с давлением.</p>
+        </div>
+        <div class="timeline-item reveal">
+            <h4>1900-е — 1930-е: Индустриализация и фреоны</h4>
+            <p>В 1913 году выпущена модель на серной кислоте, а в 1927 году General Electric запустила массовую модель Monitor-Top. Главный прорыв случился в 1928–1930 годах: Томас Мидгли изобрёл фреоны (хлорфторуглероды), сделав системы безопасными и негорючими.</p>
+        </div>
+        <div class="timeline-item reveal">
+            <h4>1920-е — 1940-е: Развитие в СССР и ВОВ</h4>
+            <p>В СССР профессия оформилась в годы первых пятилеток: к 1941 году построили 370 тыс. тонн холодильных мощностей. Великая Отечественная война ускорила стандартизацию (машинисты холодильных установок обучались для ремонта полевых рефрижераторов).</p>
+        </div>
+        <div class="timeline-item reveal">
+            <h4>1950-е — 1980-е: Оформление специальности</h4>
+            <p>Появились полупроводниковые компрессоры, абсорбционные машины. В 1973 году изобрели No-Frost. В 1980-е внедрены инверторные компрессоры и микропроцессоры. Специальность 15.02.06 потребовала новых навыков: диагностика электроники, вакуумирование систем, пайка меди.</p>
+        </div>
+        <div class="timeline-item reveal">
+            <h4>1987 — Настоящее время</h4>
+            <p>Монреальский протокол (1987) запретил фреоны, стимулируя переход на R-407C, CO2 и пропан. Внедряется цифровизация (IoT-датчики, AI-диагностика) и теплообменники из графена. В перспективе — декарбонизация и развитие водородных компрессоров.</p>
+        </div>
+    </div>
+</section>
+
+<section id="industries" style="background: rgba(0, 115, 230, 0.02)">
+    <h2 class="section-title reveal">Отраслевое развитие: специфика по секторам</h2>
+    <div class="grid">
+        <div class="card reveal">
+            <i class="fas fa-fish"></i>
+            <h3>Пищевая промышленность и рыболовство</h3>
+            <p>Монтаж рефрижераторов на судах (аммиачные компрессоры Bitzer/Sabroe), шоковая заморозка тунца/лосося при -40°C. В рыбной отрасли специалисты регулируют компрессоры для поддержания цепочки холода от ловли до прилавка. Ремонт: чистка конденсаторов, замена поршневых колец.</p>
+        </div>
+        <div class="card reveal">
+            <i class="fas fa-flask"></i>
+            <h3>Химическая промышленность и нефтехимия</h3>
+            <p>Теплонасосы для рекуперации тепла (COP 3–5), криогенные установки для сжижения газов (азот, этилен). Эксплуатация: мониторинг фреон-134a/R-410A, сложная герметизация оборудования, работающего под давлением 30 бар.</p>
+        </div>
+        <div class="card reveal">
+            <i class="fas fa-seedling"></i>
+            <h3>Сельское хозяйство и складские базы</h3>
+            <p>Холодильные камеры для молока и овощей (настройка мультикомпрессорных каскадов), обслуживание систем сублимационной сушки. Ремонтные работы включают диагностику утечек ультрафиолетом и рефрижерантную заправку.</p>
+        </div>
+        <div class="card reveal">
+            <i class="fas fa-building"></i>
+            <h3>Строительство, торговля и вентиляция</h3>
+            <p>Монтаж сплит-систем (Daikin/Mitsubishi) и мощных VRF-систем для торговых центров. Обязанности включают работу с технической документацией, чтение сложных чертежей и электромонтаж. Наблюдается рост кондиционирования в 90% новостроек.</p>
+        </div>
+        <div class="card reveal">
+            <i class="fas fa-rocket"></i>
+            <h3>Военная и транспортная отрасли</h3>
+            <p>Техническое обеспечение, монтаж и ремонт систем для рефрижераторных вагонов и транспортных самолётов. Обслуживание сверхнизкотемпературных криохранилищ для ракетного топлива и специализированных военных объектов.</p>
+        </div>
+        <div class="card reveal">
+            <i class="fas fa-briefcase-medical"></i>
+            <h3>Медицина и Фармацевтика</h3>
+            <p>Обеспечение критически важных микроклиматических условий и обслуживание больничных чиллеров. Жесткий контроль температурных режимов, где малейшая неисправность — это угроза жизни пациентов и порча ценных вакцин.</p>
+        </div>
+    </div>
+</section>
+
+<section id="skills">
+    <h2 class="section-title reveal">Профессиональный профиль</h2>
+    <div class="grid">
+
+        <div class="profile-card reveal">
+            <h3><i class="fas fa-cogs"></i> Hard Skills</h3>
+            <ul class="skills-list">
+                <li>
+                    <strong>Термодинамика и холодильный цикл</strong>
+                    <p>Понимание принципов работы парокомпрессионной холодильной машины (сжатие, конденсация, расширение, испарение). Умение читать и строить диаграммы «давление-энтальпия» (P-h диаграмма) для расчета перегрева и переохлаждения. Знание свойств различных хладагентов (фреонов R410A, R32, R134a, R404A, аммиак R717, CO2 R744) и масел.</p>
+                </li>
+                <li>
+                    <strong>Паечные и сварочные работы</strong>
+                    <p>Твердый припой (медь-фосфор, серебро): Качественная пайка медных труб под давлением (азотная сварка) без образования окалины. Сварка аргоном (TIG): Для соединений сталь-медь и работа с трубами больших диаметров (промышленный холод).</p>
+                </li>
+                <li>
+                    <strong>Электрика и автоматика</strong>
+                    <p>Чтение принципиальных электрических схем холодильных установок. Настройка и диагностика контроллеров (Danfoss, Carel, Eliwell, Dixell). Работа с силовой частью: пусковые реле, контакторы, тепловые реле, инверторное управление. Поиск утечек тока, прозвонка обмоток компрессора.</p>
+                </li>
+                <li>
+                    <strong>Инструментальная диагностика (КИПиА)</strong>
+                    <p>Владение манометрическим коллектором и электронными течеискателями. Работа с вакуумным насосом и вакуумметром (понимание глубины вакуума в микронах). Использование токоизмерительных клещей для проверки рабочего тока компрессора.</p>
+                </li>
+                <li>
+                    <strong>Монтажные и пусконаладочные работы</strong>
+                    <p>Вальцевание и развальцовка медных труб. Расчет длины трассы, подбор диаметра труб и линз ТРВ. Правила организации маслоподъемных петель и дренажа хладагента.</p>
+                </li>
+                <li>
+                    <strong>Нормативная база и экология</strong>
+                    <p>Знание правил устройства и безопасной эксплуатации сосудов, работающих под давлением (ПБ 03-576-03). Знание регламентов работы с фреонами. Понимание логики Кигалийской поправки и перехода на природные хладагенты.</p>
+                </li>
+            </ul>
+        </div>
+
+        <div class="profile-card reveal">
+            <h3><i class="fas fa-user-shield"></i> Soft Skills</h3>
+            <ul class="skills-list">
+                <li>
+                    <strong>Диагностическое мышление и системный подход</strong>
+                    <p>«Метод Шерлока Холмса». Умение отличать причину от следствия. Пример: Компрессор клинит не потому, что он старый, а потому что нет возврата масла из-за ошибки монтажа трассы. Рефмеханик с развитым мышлением ищет корень проблемы, а не меняет компрессоры раз в месяц.</p>
+                </li>
+                <li>
+                    <strong>Пространственное воображение и аккуратность</strong>
+                    <p>Способность продумать прокладку труб так, чтобы это было ремонтопригодно и эстетично. Нетерпимость к грязи. В холодильной системе грязь + влага = кислота. Хороший рефмеханик патологически чистоплотен: закрывает концы труб скотчем, азотирует шов при пайке.</p>
+                </li>
+                <li>
+                    <strong>Коммуникабельность и стрессоустойчивость</strong>
+                    <p>Умение объяснить клиенту, почему нельзя просто «долить фреончик» (потому что утечка) и почему ремонт стоит 15 000 рублей, а не 1 000. Способность работать в форс-мажорах: жара +40°C на кровле или мороз -20°C у уличного конденсатора без жалоб.</p>
+                </li>
+                <li>
+                    <strong>Обучаемость и информационная гибкость</strong>
+                    <p>Технологии меняются быстро: переход на R32 (пожароопасный фреон) и CO2 (сверхвысокое давление). Специалист должен постоянно учиться, читать технические бюллетени производителей (например, о масле PVE вместо POE).</p>
+                </li>
+                <li>
+                    <strong>Ответственность</strong>
+                    <p>Понимание, что неисправный чиллер в больнице — это не просто «не холодно», а угроза жизни пациентов или порча вакцины. Осознание ущерба от выброса килограмма фреона в атмосферу (парниковый эффект).</p>
+                </li>
+                <li>
+                    <strong>Физическая выносливость</strong>
+                    <p>Работа на высоте (кровли торговых центров) и в ограниченном пространстве (подвалы с компрессорами), часто в неудобной позе с тяжелым инструментом.</p>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+</section>
+
+<section id="edu">
+    <h2 class="section-title">Где получить профессию</h2>
+    <div class="grid">
+        <div class="card">
+            <h3>«ДМУ» (филиал) ФГБОУ ВО «Дальрыбвтуз»</h3>
+            <p>Дальневосточное мореходное училище. Лидер подготовки кадров для флота.</p>
+            <a href="https://dmu.tmweb.ru/sveden/vacant/" target="_blank" class="btn">Перейти на сайт</a>
+        </div>
+        <div class="card">
+            <h3>«ВМРК» ФГБОУ ВО «Дальрыбвтуз»</h3>
+            <p>Владивостокский морской рыбопромышленный колледж.</p>
+            <a href="https://vmfcvl.ru/montazh-i-tehnicheskaya-ekspluataciya-holodilno-kompressornyh-mashin-i-ustanovok-po-otraslyam/"
+               target="_blank" class="btn">Перейти на сайт</a>
+        </div>
+        <div class="card">
+            <h3>МТК им. И.А.Лихачёва (Москва)</h3>
+            <p>Московский технологический колледж имени Ивана Алексеевича Лихачёва.</p>
+            <a href="https://mtk.mskobr.ru/postuplenie-v-kolledzh/specialnosti-professii" target="_blank" class="btn">Перейти
+                на сайт</a>
+        </div>
+        <div class="card">
+            <h3>СЭК</h3>
+            <p>Самарский энергетический колледж.</p>
+            <a href="https://vuzopedia.ru/ssuzy/samarskiy-energeticheskiy-kolledzh/napravlenia/spednego-professionalnogo-obrazovania/montazh-i-tekhnicheskaya-ekspluatatsiya-kholodilno-kompressornykh-mashin-i-ustanovok-po-otraslyam"
+               target="_blank" class="btn">Перейти на сайт</a>
+        </div>
+        <div class="card">
+            <h3>АлтГК</h3>
+            <p>Алтайский государственный колледж.</p>
+            <a href="https://vuzopedia.ru/ssuzy/altayskiy-gosudarstvennyy-kolledzh/napravlenia/spednego-professionalnogo-obrazovania/montazh-i-tekhnicheskaya-ekspluatatsiya-kholodilno-kompressornykh-mashin-i-ustanovok-po-otraslyam"
+               target="_blank" class="btn">Перейти на сайт</a>
+        </div>
+        <div class="card">
+            <h3>ТКПСТ</h3>
+            <p>Тюменский колледж производственных и социальных технологий.</p>
+            <a href="https://vuzopedia.ru/ssuzy/tyumenskiy-kolledzh-proizvodstvennykh-i-sotsialnykh-tekhnologiy/napravlenia/spednego-professionalnogo-obrazovania/montazh-i-tekhnicheskaya-ekspluatatsiya-kholodilno-kompressornykh-mashin-i-ustanovok-po-otraslyam"
+               target="_blank" class="btn">Перейти на сайт</a>
+        </div>
+        <div class="card">
+            <h3>«ЕЭТК»</h3>
+            <p>Екатеринбургский экономико-технологический колледж.</p>
+            <a href="https://vuzopedia.ru/ssuzy/ekaterinburgskiy-ekonomiko-tekhnologicheskiy-kolledzh/napravlenia/spednego-professionalnogo-obrazovania/montazh-i-tekhnicheskaya-ekspluatatsiya-kholodilno-kompressornykh-mashin-i-ustanovok-po-otraslyam" target="_blank" class="btn">Перейти на сайт</a>
+        </div>
+        <div class="card">
+            <h3>«КМСК»</h3>
+            <p>Краснодарский машиностроительный колледж.</p>
+            <a href="https://vuzopedia.ru/ssuzy/krasnodarskiy-mashinostroitelnyy-kolledzh/napravlenia/spednego-professionalnogo-obrazovania/montazh-i-tekhnicheskaya-ekspluatatsiya-kholodilno-kompressornykh-mashin-i-ustanovok-po-otraslyam" target="_blank" class="btn">Перейти на сайт</a>
+        </div>
+        <div class="card">
+            <h3>УК БФУ им. И. Канта</h3>
+            <p>Университетский колледж Балтийского федерального университета имени Иммануила Канта.</p>
+            <a href="https://vuzopedia.ru/ssuzy/otdelenie-srednego-professionalnogo-obrazovaniya-baltiyskogo-federalnogo-universiteta-imeni-immanuila-kanta/napravlenia/spednego-professionalnogo-obrazovania/montazh-i-tekhnicheskaya-ekspluatatsiya-kholodilno-kompressornykh-mashin-i-ustanovok-po-otraslyam" target="_blank" class="btn">Перейти на сайт</a>
+        </div>
+        <div class="card">
+            <h3>КМРК</h3>
+            <p>Калининградский морской рыбопромышленный колледж Калининградского государственного технического университета.</p>
+            <a href="https://vuzopedia.ru/ssuzy/kaliningradskiy-morskoy-rybopromyshlennyy-kolledzh-kaliningradskogo-gosudarstvennogo-tekhnicheskogo-universiteta/napravlenia/spednego-professionalnogo-obrazovania/montazh-i-tekhnicheskaya-ekspluatatsiya-kholodilno-kompressornykh-mashin-i-ustanovok-po-otraslyam" target="_blank" class="btn">Перейти на сайт</a>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <p>Агеев Артём Евгеньевич</p>
+    <p>&copy; 2026 Профессия Рефмеханик. Все права защищены.</p>
+</footer>
+
+<script>
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, {threshold: 0.1});
+
+    document.querySelectorAll('.card, .timeline-item, .reveal').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = '0.8s ease-out';
+        observer.observe(el);
+    });
+</script>
+
+</body>
+</html>
